@@ -1,0 +1,18 @@
+
+#CODE SIMPLE FORMULA VARIABLES
+crea.rep$Ethnicity<-ifelse(is.na(crea.rep$Ethnicity),7,crea.rep$Ethnicity) #7 is used for an 'na' category so all rows continue into the clustering
+crea.rep$log_CREA <- log10(crea.rep$Creatinine)
+crea.rep$PP<-crea.rep$SBP-crea.rep$DBP
+crea.rep$HTN<-ifelse(crea.rep$SBP>140|crea.rep$DBP>90,1,0)
+crea.rep$HTN<-ifelse(is.na(crea.rep$HTN),0,crea.rep$HTN)
+crea.rep$Anaemia<-ifelse(!is.na(crea.rep$Haemoglobin)&((crea.rep$Gender=="M" & crea.rep$Haemoglobin<130)|(crea.rep$Gender== "F" & crea.rep$Haemoglobin<115)),1,0)
+
+####
+#MDRD eGFR
+o<-ifelse(crea.rep$Ethnicity==4,1.212,1)
+o<-ifelse(is.na(crea.rep$Ethnicity),1,o)
+p<-ifelse(crea.rep$Gender=="F",0.742,1)
+crea.rep$MDRDeGFR<-(175*((crea.rep$Creatinine/88.42)^-1.154))*(crea.rep$Age^-0.203)*o*p
+
+####
+#CKD-epi eGFR
