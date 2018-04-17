@@ -19,7 +19,7 @@ CKpotE$EntryDate2<-as.Date(as.character(CKpotE$EntryDate),format="%Y%m%d")
 CKpotE$EntryDate1<-as.Date(as.character(CKpotE$EntryDate),format="%Y%m%d")-90
 CKpotE<-CKpotE[,c("PatientID","event.date","KDmarkE","EntryDate1","EntryDate2","CKDEPIeGFR")] 
 
-############################################################################################## CHECKED
+############################################################################################## 
 #Diagnose CKD
 #If eGFR under 60 is not sustained for 90 days, recode KDmark as 0
 for (i in 1:length(CKpotE$PatientID)){
