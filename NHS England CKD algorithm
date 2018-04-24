@@ -27,6 +27,8 @@ CKpotE$CKDE[i]<-min(crea.rep$KDmarkE[crea.rep$PatientID==CKpotE$PatientID[i] &
 crea.rep$event.date>CKpotE$EntryDate1[i] & crea.rep$event.date<=CKpotE$EntryDate2[i]])
 CKpotE$MaxCKDE[i]<-max(crea.rep$CKDEPIeGFR[crea.rep$PatientID==CKpotE$PatientID[i] &
 crea.rep$event.date>CKpotE$EntryDate1[i] & crea.rep$event.date<=CKpotE$EntryDate2[i]])
+CKpotE$MinCKDE[i]<-min(crea.rep$CKDEPIeGFR[crea.rep$PatientID==CKpotE$PatientID[i] &
+crea.rep$event.date>CKpotE$EntryDate1[i] & crea.rep$event.date<=CKpotE$EntryDate2[i]])
 }
 #CKD is 1 if the test qualifies and there is no normal test within 3 months prior
 #At this stage some are temporarily falsely positively identified that have no lookback test
@@ -41,21 +43,28 @@ CKpotE<-CKpotE[CKpotE$CKDGEStage==1,]
 #CKpot is a subset table of CKD qualifying tests and their markers to be merged onto crea.rep
 CKpotE<-unique(CKpotE)
 crea.rep<-merge(crea.rep,CKpotE[,c(1,2,8:10)],all.x=TRUE)
-crea.rep$CKDGEStage<-ifelse(!is.na(crea.rep$CKDGEStage),2,0)
+crea.rep$CKDGStage<-ifelse(!is.na(crea.rep$CKDGStage),2,0)
+crea.rep$CKDZStage<-ifelse(!is.na(crea.rep$CKDGStage),2,0)
 #Stage 1 is skipped here as it cannot be identified from creatinine only, start by coding all as stage 2
-table(crea.rep$CKDGEStage)
+table(crea.rep$CKDGStage)
 
-crea.rep$CKDGEStage<-ifelse(crea.rep$CKDGEStage>0&crea.rep$MaxCKDE>=30&crea.rep$MaxCKDE<45,3.5,crea.rep$CKDGEStage)
-crea.rep$CKDGEStage<-ifelse(crea.rep$CKDGEStage>0&crea.rep$MaxCKDE>=45&crea.rep$MaxCKDE<60,3,crea.rep$CKDGEStage)
-crea.rep$CKDGEStage<-ifelse(crea.rep$CKDGEStage>0&crea.rep$MaxCKDE>=15&crea.rep$MaxCKDE<30,4,crea.rep$CKDGEStage)
-crea.rep$CKDGEStage<-ifelse(crea.rep$CKDGEStage>0&crea.rep$MaxCKDE<15,5,crea.rep$CKDGStage)
-crea.rep$CKDGEStage<-ifelse(is.na(crea.rep$CKDGEStage),0,crea.rep$CKDGEStage)
-table(crea.rep$CKDGEStage)
+crea.rep$CKDGStage<-ifelse(crea.rep$CKDGStage>0&crea.rep$MaxCKDE>=30&crea.rep$MaxCKDE<45,3.5,crea.rep$CKDGStage)
+crea.rep$CKDGStage<-ifelse(crea.rep$CKDGStage>0&crea.rep$MaxCKDE>=45&crea.rep$MaxCKDE<60,3,crea.rep$CKDGStage)
+crea.rep$CKDGStage<-ifelse(crea.rep$CKDGStage>0&crea.rep$MaxCKDE>=15&crea.rep$MaxCKDE<30,4,crea.rep$CKDGStage)
+crea.rep$CKDGStage<-ifelse(crea.rep$CKDGStage>0&crea.rep$MaxCKDE<15,5,crea.rep$CKDGStage)
+crea.rep$CKDGStage<-ifelse(is.na(crea.rep$CKDGStage),0,crea.rep$CKDGStage)
+table(crea.rep$CKDGStage)
 
 #can replace with dplyr
 #Recode to KDIGO
-crea.rep$CKDGEStage<-ifelse(crea.rep$CKDGEStage==3.5,paste("3b"),paste(crea.rep$CKDGEStage))
-crea.rep$MaxCKDGEStage<-ifelse(crea.rep$MaxCKDGEStage==3.5,paste("3b"),paste(crea.rep$MaxCKDGEStage))
+crea.rep$CKDGStage<-ifelse(crea.rep$CKDGStage==3.5,paste("3b"),paste(crea.rep$CKDGStage))
+crea.rep$MaxCKDGStage<-ifelse(crea.rep$MaxCKDGStage==3.5,paste("3b"),paste(crea.rep$MaxCKDGStage))
+
+crea.rep$CKDZStage<-ifelse(crea.rep$CKDZStage>0&crea.rep$MinCKDE>=30&crea.rep$MinCKDE<45,3.5,crea.rep$CKDZStage)
+crea.rep$CKDZStage<-ifelse(crea.rep$CKDZStage>0&crea.rep$MinCKDE>=45&crea.rep$MinCKDE<60,3,crea.rep$CKDZStage)
+crea.rep$CKDZStage<-ifelse(crea.rep$CKDZStage>0&crea.rep$MinCKDE>=15&crea.rep$MinCKDE<30,4,crea.rep$CKDZStage)
+crea.rep$CKDZStage<-ifelse(crea.rep$CKDZStage>0&crea.rep$MinCKDE<15,5,crea.rep$CKDZStage)
+crea.rep$CKDZStage<-ifelse(is.na(crea.rep$CKDZStage),0,crea.rep$CKDGStage)
 
 
 #########################################################################################################
@@ -86,7 +95,7 @@ crea.rep$CKDPrognosis<-ifelse(crea.rep$CKDGStage==3.5 & crea.rep$CKDAStage==1,2,
 crea.rep$CKDPrognosis<-ifelse(crea.rep$CKDGStage==3 & crea.rep$CKDAStage==1,1,crea.rep$CKDPrognosis)
 crea.rep$CKDPrognosis<-ifelse(crea.rep$CKDGStage==3 & crea.rep$CKDAStage==2,2,crea.rep$CKDPrognosis)
 
-#Where CKD diagnosed based on creatinine, add metric for summarised eGFR range for further phenotyping
+#Where CKD diagnosed based on creatinine, add metrics for summarised eGFR range for further phenotyping
 crea.rep$CustomeGFR<-ifelse(crea.rep$CKDPrognosis>0 &crea.rep$MDRDeGFR>=60 & crea.rep$MDRDeGFR<90,1,NA)
 crea.rep$CustomeGFR<-ifelse(crea.rep$CKDPrognosis>0 & crea.rep$MDRDeGFR>=60 & crea.rep$MDRDeGFR<90,1,NA)
 crea.rep$CustomeGFR<-ifelse(crea.rep$CKDPrognosis>0 &crea.rep$MDRDeGFR>=45 & crea.rep$MDRDeGFR<60,2,crea.rep$CustomeGFR)
@@ -94,5 +103,11 @@ crea.rep$CustomeGFR<-ifelse(crea.rep$CKDPrognosis>0 &crea.rep$MDRDeGFR>=30 & cre
 crea.rep$CustomeGFR<-ifelse(crea.rep$CKDPrognosis>0 &crea.rep$MDRDeGFR>=15 & crea.rep$MDRDeGFR<30,4,crea.rep$CustomeGFR)
 crea.rep$CustomeGFR<-ifelse(crea.rep$CKDPrognosis>0 &crea.rep$MDRDeGFR<15,5,crea.rep$CustomeGFR)
 
+crea.rep$CustomeGFR2<-ifelse(crea.rep$CKDPrognosis>0 &crea.rep$MDRDeGFR>=60 & crea.rep$MDRDeGFR<90,1,NA)
+crea.rep$CustomeGFR2<-ifelse(crea.rep$CKDPrognosis>0 & crea.rep$MDRDeGFR>=60 & crea.rep$MDRDeGFR<90,1,NA)
+crea.rep$CustomeGFR2<-ifelse(crea.rep$CKDPrognosis>0 &crea.rep$MDRDeGFR>=45 & crea.rep$MDRDeGFR<60,2,crea.rep$CustomeGFR)
+crea.rep$CustomeGFR2<-ifelse(crea.rep$CKDPrognosis>0 &crea.rep$MDRDeGFR>=30 & crea.rep$MDRDeGFR<45,3,crea.rep$CustomeGFR)
+crea.rep$CustomeGFR2<-ifelse(crea.rep$CKDPrognosis>0 &crea.rep$MDRDeGFR>=15 & crea.rep$MDRDeGFR<30,4,crea.rep$CustomeGFR)
+crea.rep$CustomeGFR2<-ifelse(crea.rep$CKDPrognosis>0 &crea.rep$MDRDeGFR<15,5,crea.rep$CustomeGFR)
 
 ###################################################################################
