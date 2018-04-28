@@ -8,9 +8,6 @@
 ##// here it can happen that some dates within the patient have more NAs for WRFx than they have for WRF
 ##// that is because if we take some date to calculate WRF, it will probably have a year Mean from the whole last year to subtract it from (it just looks at the previous year, say whole 2015, no matter the date in 2016 that is our current date)
 ##// for WRFx, it can happen that for some date, one year in the past (exactly 365 days ago) there is no data at all, and that row will have NA
-# e.g. Pat 21246, date 2016-07-18 has no data in the last 365 days because the nearest date in past
-# is more than 365 days away - 2015-03-17. It will have WRFcreaDiff calculated because it will take 2015's mean and subtract
-#-------------------------------------------
 
 crea.rep <- yourdata
 setDT(crea.rep)
