@@ -50,3 +50,5 @@ crea.rep[,WRFx:=ifelse(WRFcreaDiff_x >= 17.7 & WRFcreaDiff_x <= 26.5 & crea.rep$
 crea.rep[,WRFx:=ifelse(WRFcreaDiff_x > 26.5 & WRFcreaDiff_x <=44.2, 2, crea.rep$WRFx)]
 crea.rep[,WRFx:=ifelse(WRFcreaDiff_x > 44.2, 3, crea.rep$WRFx)]
 crea.rep[crea.rep[,is.na(crea.rep$WRFx)], "WRFx"] <- 0
+WRFXS<-crea.rep
+save(WRFXS,file="WRFXS.rda")
