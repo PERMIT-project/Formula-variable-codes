@@ -1,0 +1,60 @@
+library(survival)
+load("crea.rep.rda")
+CPRD<-read_dta("hf_cases_clinical.dta")
+CPRDb<-CPRD[CPRD$enttype=="4",]
+
+CPRD2<-read_dta("hf_cases_additional.dta")
+CPRDb<-merge(CPRDb,CPRD2,all.x=TRUE)
+
+#data5=start,#data6=stop
+CPRDA<-CPRDb[!is.na(CPRDb$data5)|!is.na(CPRDb$data6),]
+CPRDB<-CPRDb[is.na(CPRDb$data5)&is.na(CPRDb$data6),] #If neither the smoking or cessation data field are populated, fill in based on code
+CPRDC<-CPRD[!CPRD$enttype=="4",]
+
+Smokcodes<-read.csv("CPRDsmoking.csv")
+Smokcodes1<-Smokcodes[Smokcodes$Cessation==1,]
+Smokcodes2<-Smokcodes[Smokcodes$Smoking==1,]
+
+#eventdate2 is a temporary variable.
+CPRDA$eventdate2 <- strptime(as.character(CPRDA$eventdate), "%Y-%m-%d")
+CPRDA$eventdate3<-format(CPRDA$eventdate2, "%Y%m%d")
+CPRDB$eventdate2 <- strptime(as.character(CPRDB$eventdate), "%Y-%m-%d")
+CPRDB$eventdate3<-format(CPRDB$eventdate2, "%Y%m%d")
+CPRDC$eventdate2 <- strptime(as.character(CPRDC$eventdate), "%Y-%m-%d")
+CPRDC$eventdate3<-format(CPRDC$eventdate2, "%Y%m%d")
+
+CPRDB$data5<-ifelse(CPRDB$medcode %in% Smokcodes2$MedCode,CPRDB$eventdate3,NA)
+CPRDB$data6<-ifelse(CPRDB$medcode %in% Smokcodes1$MedCode,CPRDB$eventdate3,NA)
+
+CPRDC$data5<-ifelse(CPRDC$medcode %in% Smokcodes2$MedCode,CPRDC$eventdate3,NA)
+CPRDC$data6<-ifelse(CPRDC$medcode %in% Smokcodes1$MedCode,CPRDC$eventdate3,NA)
+
+CPRDB<-CPRDB[!is.na(CPRDB$data5)|!is.na(CPRDB$data6),]
+CPRDC<-CPRDC[!is.na(CPRDC$data5)|!is.na(CPRDC$data6),]
+
+CPRDA<-CPRDA[,c("patid","eventdate","eventdate2","eventdate3","data5","data6")]
+CPRDB<-CPRDB[,c("patid","eventdate","eventdate2","eventdate3","data5","data6")]
+CPRDC<-CPRDC[,c("patid","eventdate","eventdate2","eventdate3","data5","data6")]
+
+Smoke<-rbind(CPRDA,CPRDB,CPRDC)
+Smoke$data5 <- strptime(as.character(Smoke$data5), "%Y%m%d")
+Smoke$data5<-format(Smoke$data5, "%Y-%m-%d")
+Smoke$data5<-as.Date(Smoke$data5, "%Y-%m-%d")
+Smoke$data6 <- strptime(as.character(Smoke$data6), "%Y%m%d")
+Smoke$data6<-format(Smoke$data6, "%Y-%m-%d")
+Smoke$data6<-as.Date(Smoke$data6, "%Y-%m-%d")
+
+Smoke<-Smoke[!is.na(Smoke$data5),]
+Smoke$patid<-as.character(Smoke$patid)
+
+length(unique(crea.rep$PatientID[crea.rep$patid %in% Smoke$patid]))
+#Only 2 patients in our dataset have smoking information
+indx1 <-neardate(crea.rep$PatientID, Smoke$patid, crea.rep$event.date, Smoke$eventdate,best="prior")
+
+crea.rep$SmokeDate<-Smoke[indx1, "data5"]
+crea.rep$StopDate<-Smoke[indx1, "data6"]
+crea.rep$Smoker<- ifelse(as.numeric(abs(crea.rep$event.date - crea.rep$SmokeDate))>=0, 1, 0)
+crea.rep$Smoker<- ifelse(!is.na(crea.rep$StopDate)&as.numeric(abs(crea.rep$event.date - crea.rep$StopDate))>=0, 0, crea.rep$Smoker)
+crea.rep$Smoker<-unlist(crea.rep$Smoker)
+#Remove working columns:
+#crea.rep<-crea.rep[,c(1:106)]
