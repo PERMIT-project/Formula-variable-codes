@@ -1,5 +1,5 @@
 load("crea.rep.rda") #Primary table with 1 row per patient per date with creatinine summarised as max per date
-load("sir.datahfonly.Rdata") #Full EHR extract table
+
 
 library (taRifx)
 library(tcltk)
