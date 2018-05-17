@@ -21,8 +21,7 @@ crea.rep$MDRDeGFR<-(175*((crea.rep$Creatinine/88.42)^-1.154))*(crea.rep$Age^-0.2
 ## CKD-EPI eGFR equation
 ## ethnicity 4=Black African/Caribbean
 crea.rep$CKDEPIeGFR<- ifelse(crea.rep$Gender=="M" & crea.rep$Ethnicity==4, (141*(pmin((crea.rep$Creatinine/79.6),1)^(-0.411))*
-(pmax((crea.rep$Creatinine/79.6), 1)^(-1.209))*(0.993^(crea.rep$Age))*1.159),  NA)
+                                                                              (pmax((crea.rep$Creatinine/79.6), 1)^(-1.209))*(0.993^(crea.rep$Age))*1.159),  NA)
 crea.rep$CKDEPIeGFR<- ifelse(is.na(crea.rep$CKDEPIeGFR) & crea.rep$Gender=="M"& crea.rep$Ethnicity!=4, (141*(pmin((crea.rep$Creatinine/79.6),1)^(-0.411))*(pmax((crea.rep$Creatinine/79.6), 1)^(-1.209))*(0.993^(crea.rep$Age))),  crea.rep$CKDEPIeGFR)
 crea.rep$CKDEPIeGFR <-ifelse(is.na(crea.rep$CKDEPIeGFR) & crea.rep$Gender=="F" & crea.rep$Ethnicity==4, (141*(pmin((crea.rep$Creatinine/61.9),1)^(-0.329))*(pmax((crea.rep$Creatinine/61.9), 1)^(-1.209))*(0.993^(crea.rep$Age))*1.018*1.159),  crea.rep$CKDEPIeGFR)
 crea.rep$CKDEPIeGFR <-ifelse(is.na(crea.rep$CKDEPIeGFR), (141*(pmin((crea.rep$Creatinine/61.9),1)^(-0.329))*(pmax((crea.rep$Creatinine/61.9), 1)^(-1.209))*(0.993^(crea.rep$Age))*1.018), crea.rep$CKDEPIeGFR)
-
