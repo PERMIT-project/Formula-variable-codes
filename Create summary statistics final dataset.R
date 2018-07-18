@@ -221,16 +221,24 @@ tmp <- crea.rep %>%
          distinct(PatientID, NoAKIepisodes) %>%
             group_by(PatientID) %>% 
               filter(NoAKIepisodes == max(NoAKIepisodes)) %>% 
-                ungroup() 
+                ungroup()
+
+
 
 
 dataset_summary <- dataset_summary %>%
-                      bind_rows(data.frame(Characteristic = "Mean number of AKI episodes (sd)",
-                                           Value = str_c(round(mean(tmp$NoAKIepisodes), 1),
+                      bind_rows(data.frame(Characteristic = "Patients with at least one AKI (%)",
+                                           Value = str_c(format(sum(tmp$NoAKIepisodes > 0) , big.mark = ","),
                                                          " (",
-                                                         round(sd(tmp$NoAKIepisodes), 1),
+                                                         round(sum(tmp$NoAKIepisodes > 0)/nrow(tmp)*100, 1),
                                                          ")",
-                                                         sep = "")))
+                                                         sep = ""))) %>%
+                          bind_rows(data.frame(Characteristic = "Mean number of AKI episodes (sd)",
+                                               Value = str_c(round(mean(tmp$NoAKIepisodes), 1),
+                                                             " (",
+                                                             round(sd(tmp$NoAKIepisodes), 1),
+                                                             ")",
+                                                             sep = "")))
 
 
 
