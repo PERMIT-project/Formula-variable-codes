@@ -147,16 +147,18 @@ calculate_mean_sd_lab_test <- function(col_name, df, digits = 1){
 
 }
 
-
-IDs <- crea.rep %>%
-        filter(event.date >= as.Date("2008-01-01") & TimeSincehf >= 0) %>%
-          distinct(PatientID)
+# 
+# IDs <- crea.rep %>%
+#         filter(event.date >= as.Date("2008-01-01") & TimeSincehf >= 0) %>%
+#           distinct(PatientID)
+# 
+# 
+# save(crea.rep, file = "SIR_crea.select_refined.rda")
 
 crea.rep <- crea.rep %>%
-              filter(PatientID %in% IDs$PatientID) %>%
-                mutate(Ethnicity = factor(Ethnicity))
+  #filter(PatientID %in% IDs$PatientID) %>%
+    mutate(Ethnicity = factor(Ethnicity))
 
-save(crea.rep, file = "SIR_crea.select_refined.rda")
 
 length(unique(crea.rep$PatientID))
 #[1] 6067
@@ -213,6 +215,25 @@ for(j in 1:length(CKDstage_columns)){
   }
   
 }
+
+### AKI
+tmp <- crea.rep %>% 
+         distinct(PatientID, NoAKIepisodes) %>%
+            group_by(PatientID) %>% 
+              filter(NoAKIepisodes == max(NoAKIepisodes)) %>% 
+                ungroup() 
+
+
+dataset_summary <- dataset_summary %>%
+                      bind_rows(data.frame(Characteristic = "Mean number of AKI episodes (sd)",
+                                           Value = str_c(round(mean(tmp$NoAKIepisodes), 1),
+                                                         " (",
+                                                         round(sd(tmp$NoAKIepisodes), 1),
+                                                         ")",
+                                                         sep = "")))
+
+
+
 
 
 
