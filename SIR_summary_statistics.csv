@@ -1,0 +1,64 @@
+"Characteristic","Value","Patients.without.any.value...."
+"Number of patients","3,822",NA
+"Mean age at baseline (sd)","73.2 (12.9)",NA
+"Max age (sd)","77.4 (11.8)",NA
+"HF age (sd)","73.1 (12.9)",NA
+"Follow-up in years (sd)","2.9 (2.4)",NA
+"CKDStage_MDRDeGFR - At least 2 (%)","3,539 (92.6)",NA
+"CKDStage_MDRDeGFR - At least 3a (%)","2,030 (53.1)",NA
+"CKDStage_MDRDeGFR - At least 3b (%)","1,012 (26.5)",NA
+"CKDStage_MDRDeGFR - At least 4 (%)","286 (7.5)",NA
+"CKDStage_MDRDeGFR - At least 5 (%)","45 (1.2)",NA
+"CKDStage_CKDEPIeGFR - At least 2 (%)","3,438 (90)",NA
+"CKDStage_CKDEPIeGFR - At least 3a (%)","1,967 (51.5)",NA
+"CKDStage_CKDEPIeGFR - At least 3b (%)","1,057 (27.7)",NA
+"CKDStage_CKDEPIeGFR - At least 4 (%)","340 (8.9)",NA
+"CKDStage_CKDEPIeGFR - At least 5 (%)","58 (1.5)",NA
+"Patients with at least one AKI (%)","1,839 (48.1)",NA
+"Mean number of AKI episodes (sd)","1.7 (3.7)",NA
+"Gender - F (%)","1,728 (45.2)",NA
+"Gender - M (%)","2,094 (54.8)",NA
+"Death (%)","984 (25.7)",NA
+"Ethnicity - 1 (%)","3,688 (96.5)",NA
+"Ethnicity - 2 (%)","    5 (0.1)",NA
+"Ethnicity - 3 (%)","   26 (0.7)",NA
+"Ethnicity - 4 (%)","   18 (0.5)",NA
+"Ethnicity - 5 (%)","   12 (0.3)",NA
+"Ethnicity - 6 (%)","   70 (1.8)",NA
+"Ethnicity - 7 (%)","    3 (0.1)",NA
+"Nephrectomy (%)","0 (0)",NA
+"RRT (%)","42 (1.1)",NA
+"Diabetes (%)","1,129 (29.5)",NA
+"AF (%)","1,541 (40.3)",NA
+"IHD (%)","2,253 (58.9)",NA
+"PVD (%)","1,473 (38.5)",NA
+"RenalMalignancy (%)","23 (0.6)",NA
+"RenalTransplant (%)","11 (0.3)",NA
+"CLD (%)","81 (2.1)",NA
+"Smoker (%)","1,066 (27.9)",NA
+"Anaemia (%)","3,550 (92.9)",NA
+"Antimicrobial_yn (%)","617 (16.1)",NA
+"ARBs_yn (%)","1,029 (26.9)",NA
+"DIUR_THI_yn (%)","1,869 (48.9)",NA
+"Immunosuppressants_yn (%)","73 (1.9)",NA
+"LoopDiuretics_yn (%)","2,663 (69.7)",NA
+"NSAID_yn (%)","1,102 (28.8)",NA
+"Othernephrotoxins_yn (%)","19 (0.5)",NA
+"Mean Creatinine (sd)","98.7 (49.5)","0 (0)"
+"Mean MDRDeGFR (sd)","69.5 (23.4)","0 (0)"
+"Mean CKDEPIeGFR (sd)","68 (20.3)","0 (0)"
+"Mean SerumSodium (sd)","139.3 (2.6)","0 (0)"
+"Mean BMI (sd)","28.4 (6.2)","28 (0.7)"
+"Mean UricAcid (sd)","0.4 (0.1)","2,705 (70.8)"
+"Mean BUN (sd)","7.9 (3.3)","0 (0)"
+"Mean SerPotassium (sd)","4.4 (0.3)","0 (0)"
+"Mean HeartRate (sd)","74.3 (11.1)","3,180 (83.2)"
+"Mean BNP (sd)","375.6 (273.3)","3,551 (92.9)"
+"Mean NTPROBNP (sd)","1353.8 (1385.6)","3,774 (98.7)"
+"Mean SBP (sd)","132.1 (12.3)","2 (0.1)"
+"Mean DBP (sd)","74.1 (7.4)","2 (0.1)"
+"Mean SerumAlbumin (sd)","40.6 (3.6)","2 (0.1)"
+"Mean UrineAlbumin (sd)","52.4 (109.8)","1,721 (45)"
+"Mean UACratio (sd)","12.7 (44.1)","1,683 (44)"
+"Mean MCV (sd)","90.1 (4.9)","3 (0.1)"
+"Mean Haemoglobin (sd)","123.6 (15.8)","1 (0)"
